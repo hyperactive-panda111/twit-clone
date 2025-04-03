@@ -1,6 +1,6 @@
 import { menuList } from "@/constants/constants"
-import Image from "next/image"
 import Link from "next/link"
+import Image from "./Image"
 
 
 const LeftBar = () => {
@@ -11,9 +11,9 @@ const LeftBar = () => {
         {/* LOGO */}
         <Link href='/' className="p-2 rounded-full bg-[#181818]">
           <Image 
-            src={"icons/logo.svg"} 
-            width={24}
-            height={24}
+            path={"icons/logo.svg"} 
+            w={24}
+            h={24}
             alt="logo"
              />
         </Link>
@@ -22,9 +22,9 @@ const LeftBar = () => {
           {menuList.map((item) => (
            <Link href={`icons/${item.link}`} className="flex items-center gap-4 p-2 rounded-full hover:bg-[#181818]" key={item.id}>
             <Image 
-              src={`icons/${item.icon}`} 
-              height={24} 
-              width={24} 
+              path={`icons/${item.icon}`} 
+              h={24} 
+              w={24} 
               alt={item.name} 
             />
             <span className="hidden xxl:inline">{item.name}</span>
@@ -33,7 +33,7 @@ const LeftBar = () => {
         </div>
         {/* POST BUTTON */}
         <Link href={'/'} className="flex items-center justify-center w-12 h-12 bg-white rounded-full xxl:hidden">
-          <Image src={"icons/post.svg"} height={24} width={24} alt="post" />
+          <Image path={"icons/post.svg"} h={24} w={24} alt="post" />
         </Link>
         <Link href={'/'} className="hidden xxl:block rounded-full bg-white text-black font-bold py-2 px-20">
           Post
@@ -44,8 +44,9 @@ const LeftBar = () => {
         <div className="flex gap-2 items-center">
           <div className="relative w-10 h-10 rounded-full overflow-hidden">
             <Image 
-              src="/general/panda.png"
-              fill
+              path="/general/panda.png"
+              w={24}
+              h={24}
               alt="user" 
             />
           </div>
