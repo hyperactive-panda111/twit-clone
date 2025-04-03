@@ -4,6 +4,8 @@ const Feed = () => {
   return (
     <div>
         <Post />
+        <Post />
+        <Post />
     </div>
   )
 }
