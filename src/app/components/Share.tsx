@@ -38,9 +38,9 @@ const Share = () => {
         />
       </div>
       <div className='flex flex-1 flex-col gap-4'>
-        <input type='text' name='desc'placeholder='What is happening?!' className='bg-transparent outline-none placeholder:text-textGray text-xl'/>
+        <input type='text' name='desc' placeholder='What is happening?!' className='bg-transparent outline-none placeholder:text-textGray text-xl'/>
         {
-          previewURL && <div className='relative rounded-xl overflow-hidden'>
+          media?.type.includes('image') && previewURL && <div className='relative rounded-xl overflow-hidden'>
             <NxtImage 
               src={previewURL}
               alt='preview-image'
@@ -52,6 +52,13 @@ const Share = () => {
                   ? 'aspect-square object-cover' : 'aspect-video object-cover'
                 }`} />
             <div className='absolute top-2 left-2 bg-black bg-opacity-50 px-4 py-1 text-white text-sm font-bold cursor-pointer rounded-full' onClick={() => setIsEditorOpen(true)}>Edit</div>
+            <div className='absolute top-2 right-2 bg-black cursor-pointer rounded-full bg-opacity-50 text-white h-8 w-8 flex items-center justify-center' onClick={() => setMedia(null)}>X</div>
+          </div>
+        }
+        {
+          media?.type.includes('video') && previewURL && <div className='relative'>
+            <video src={previewURL} controls />
+            <div className='absolute top-2 right-2 bg-black cursor-pointer rounded-full bg-opacity-50 text-white h-8 w-8 flex items-center justify-center' onClick={() => setMedia(null)}>X</div>
           </div>
         }
         {
@@ -66,7 +73,7 @@ const Share = () => {
         }
         <div className='flex items-center justify-between gap-4 flex-wrap'>
           <div className='flex items-center gap-4 flex-wrap'>
-            <input type='file' name='file' onChange={handleMediaChange} className='hidden' id='file'/>
+            <input type='file' name='file' onChange={handleMediaChange} className='hidden' id='file' accept='image/*,video/*'/>
             <label htmlFor='file'>
               <Image path='/icons/image.svg' alt='link' w={20} h={20} className='cursor-pointer' />
             </label>
