@@ -28,6 +28,9 @@ export const shareAction = async (formData: FormData, settings: {type: 'original
 		transformation: {
 			pre: transformation,
 		},
+		customMetadata: {
+			sensitive: settings.sensitive,
+		}
 	}, function(error, result) {
 		if(error) console.log(error);
 		else console.log(result);
