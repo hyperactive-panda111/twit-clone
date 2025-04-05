@@ -24,7 +24,9 @@ const Image = ({ path, w, h, alt, className, tr }: ImageType) => {
         className={className}
         {...(tr
              ? { transformation: [{ width: `${w}`, height: `${h}`}]}
-             : { width: w, height: w } )}
+             : { width: w, height: w } 
+        )}
+        lqip={{active: true, quality: 20 }}
     />
     );
 };
