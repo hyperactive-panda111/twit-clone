@@ -16,13 +16,16 @@ export const shareAction = async (formData: FormData, settings: {type: 'original
 		? 'ar-16-9' 
 		: ''
 	} `
-	imagekit.upload({
-		file: buffer,
-		fileName: file.name,
-		folder: '/posts',
-		transformation: {
-			pre: transformation,
-		},
+	imagekit.upload(
+		{
+			file: buffer,
+			fileName: file.name,
+			folder: '/posts',
+			...(file.type.includes("image") && {
+				 transformation: {
+				pre: transformation,
+	},
+		}),
 		customMetadata: {
 			sensitive: settings.sensitive,
 		}
