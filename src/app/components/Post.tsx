@@ -2,6 +2,7 @@ import { imagekit } from "@/utils";
 import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
+import Video from "./Video";
 
 interface FileDetailsResponse {
     width: number;
@@ -23,8 +24,8 @@ const Post = async () => {
             });
         });
     }
-
-    const fileDetails = await getFileDetails('67f16b9d432c4764160e9ae8');
+// 67f16b9d432c4764160e9ae8
+    const fileDetails = await getFileDetails('67f190a8432c476416e134a8');
 
 
     return (
@@ -72,7 +73,20 @@ const Post = async () => {
                         consectetur debitis vel quaerat.
                     </p>
                     {/* <Image path="/general/post.jpeg" w={600} h={600} alt="post" /> */}
-                    {fileDetails && (<Image className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} alt='' path={fileDetails.filePath} w={fileDetails.width} h={fileDetails.height}/>)}
+                    {fileDetails && fileDetails.fileType === 'image' ? (
+                        <Image 
+                            className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} 
+                            alt='' 
+                            path={fileDetails.filePath} 
+                            w={fileDetails.width} 
+                            h={fileDetails.height}
+                        />
+                    ) : (
+                            <Video 
+                                path={fileDetails.filePath}
+                                className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} 
+                            />
+                        )}
                     <PostInteractions />
                 </div>
             </div>
