@@ -24,8 +24,8 @@ const Post = async () => {
             });
         });
     }
-// 67f16b9d432c4764160e9ae8
-    const fileDetails = await getFileDetails('67f190a8432c476416e134a8');
+// 67f16b9d432c4764160e9ae8 67f190a8432c476416e134a8 67f24698432c476416b0319d
+    const fileDetails = await getFileDetails('67f24698432c476416b0319d');
 
 
     return (

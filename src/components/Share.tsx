@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from './Image';
 import NxtImage from 'next/image';
-import { shareAction } from '../../../actions';
+import { shareAction } from '../../actions';
 import { ImageEditor } from './ImageEditor';
 
 const Share = () => {
