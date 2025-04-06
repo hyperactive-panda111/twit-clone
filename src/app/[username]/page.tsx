@@ -1,3 +1,4 @@
+import Feed from '@/components/Feed'
 import Image from '@/components/Image'
 import Link from 'next/link'
 import React from 'react'
@@ -80,7 +81,7 @@ const UserPage = () => {
         </div>
       </div>  
       {/* FEED  */}
-      
+      <Feed />
     </div>
   )
 }
