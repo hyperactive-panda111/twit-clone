@@ -13,7 +13,7 @@ const StatusPage = () => {
                     </Link>
                     <h1 className='font-bold text-lg'>Post</h1>
                 </div>
-                    <Post type='status' />
+                    <Post type='status'/>
             </div>
         </div>
     )
