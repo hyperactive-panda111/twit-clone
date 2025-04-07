@@ -3,6 +3,7 @@ import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import Video from "./Video";
+import Link from "next/link";
 
 interface FileDetailsResponse {
     width: number;
@@ -15,7 +16,7 @@ interface FileDetailsResponse {
     }
 };
 
-const Post = async ({type}: {type?: 'status' | 'comment'}) => {
+const Post = async ({ type }: { type ?: 'status' | 'comment'}) => {
     const getFileDetails = async (fileId: string): Promise<FileDetailsResponse> => {
         return new Promise((resolve, reject) => {
             imagekit.getFileDetails(fileId, function (error, result) {
@@ -40,9 +41,9 @@ const Post = async ({type}: {type?: 'status' | 'comment'}) => {
                 <span className="">KarmaDev reposted</span>
             </div>
             {/* POST CONTENT */}
-            <div className="flex flex-1 gap-4 justify-between">
+            <div className={`${type === 'status' ? 'flex flex-col gap-4' : ''}`}>
                 {/* AVATAR */}
-                <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                <div className={`${type === 'status' && 'hidden'} relative w-10 h-10 rounded-full overflow-hidden`}>
                     <Image
                         path="/general/panda.png"
                         alt="profile"
@@ -54,24 +55,37 @@ const Post = async ({type}: {type?: 'status' | 'comment'}) => {
                 {/* CONTENT */}
                 <div className="flex-1 flex flex-col gap-2">
                     {/* TOP */}
-                    <div className="flex justify-between">
-                        <div className="flex gap-2 items-center flex-wrap">
-                            <h1 className="text-md text-bold">Karma Dev</h1>
-                            <span className="text-textGray">@karmadev</span>
-                            <span className="text-textGray">1 day ago</span>
+                    <div className='w-full flex justify-between'>
+                        <Link href={`/test`} className="flex gap-4">
+                            <div className={`${type !== 'status' && 'hidden'} relative w-10 h-10 rounded-full overflow-hidden`}>
+                                <Image
+                                    path="/general/panda.png"
+                                    alt="profile"
+                                    tr={true}
+                                    w={100}
+                                    h={100}
+                                />
+                            </div>
+                            <div className={`flex gap-2 items-center flex-wrap ${type === 'status' && 'flex-col gap-0 !items-start'}`}>
+                                <h1 className={`text-md text-bold ${type==='status' && 'text-sm'}`}>Karma Dev</h1>
+                                <span className="text-textGray">@karmadev</span>
+                                {type !== 'status' && <span className="text-textGray">1 day ago</span>}
+                            </div>
+                        </Link>
+                         <PostInfo />
                         </div>
-                        <PostInfo />
                     </div>
-                    
                     {/* TEXT & MEDIA */}
-                    <p className="">
-                        Lorem ipsum dolor sit amet consectetur
-                        adipisicing elit. Repellendus maiores animi
-                        vitae temporibus, inventore, rerum excepturi
-                        distinctio voluptatem voluptate laboriosam at!
-                        Assumenda tempore cum, ipsum doloremque
-                        consectetur debitis vel quaerat.
-                    </p>
+                    <Link href={`/test/status/12`}>
+                        <p className={`${type === 'status' && 'text-lg'}`}>
+                            Lorem ipsum dolor sit amet consectetur
+                            adipisicing elit. Repellendus maiores animi
+                            vitae temporibus, inventore, rerum excepturi
+                            distinctio voluptatem voluptate laboriosam at!
+                            Assumenda tempore cum, ipsum doloremque
+                            consectetur debitis vel quaerat.
+                        </p>
+                    </Link>
                     {/* <Image path="/general/post.jpeg" w={600} h={600} alt="post" /> */}
                     {fileDetails && fileDetails.fileType === 'image' ? (
                         <Image 
@@ -87,11 +101,11 @@ const Post = async ({type}: {type?: 'status' | 'comment'}) => {
                                 className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} 
                             />
                         )}
+                    {type === 'status' && <span className='text-textGray'>8:41 PM · Dec 5, 1886</span>}
                     <PostInteractions />
                 </div>
             </div>
-        </div>
-    )
-}
+    );
+};
 
-export default Post
+export default Post;
