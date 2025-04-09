@@ -1,9 +1,15 @@
-import { SignIn } from '@clerk/nextjs'
 import React from 'react'
 
 const SignInPage = () => {
   return (
-    <div><SignIn /></div>
+    <div className='h-screen flex items-center justify-between p-8'>
+      <div>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
   )
 }
 
