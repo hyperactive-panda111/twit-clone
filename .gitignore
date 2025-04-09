@@ -17,6 +17,11 @@
 /.next/
 /out/
 
+#prisma dev files
+/app
+/prisma/*
+/lib
+
 # production
 /build
 
