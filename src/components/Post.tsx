@@ -4,6 +4,7 @@ import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import Video from "./Video";
 import Link from "next/link";
+import { Post as PostType } from "../../prisma/db/generated/prisma";
 
 interface FileDetailsResponse {
     width: number;
@@ -16,17 +17,17 @@ interface FileDetailsResponse {
     }
 };
 
-const Post = async ({ type }: { type ?: 'status' | 'comment'}) => {
-    const getFileDetails = async (fileId: string): Promise<FileDetailsResponse> => {
-        return new Promise((resolve, reject) => {
-            imagekit.getFileDetails(fileId, function (error, result) {
-                if (error) reject(error);
-                else resolve(result as FileDetailsResponse);
-            });
-        });
-    }
+const Post = ({ type }: { type ?: 'status' | 'comment'}) => {
+    // const getFileDetails = async (fileId: string): Promise<FileDetailsResponse> => {
+    //     return new Promise((resolve, reject) => {
+    //         imagekit.getFileDetails(fileId, function (error, result) {
+    //             if (error) reject(error);
+    //             else resolve(result as FileDetailsResponse);
+    //         });
+    //     });
+    // }
 // 67f16b9d432c4764160e9ae8 67f190a8432c476416e134a8 67f24698432c476416b0319d
-    const fileDetails = await getFileDetails('67f24698432c476416b0319d');
+    // const fileDetails = await getFileDetails('67f24698432c476416b0319d');
 
 
     return (
@@ -86,8 +87,8 @@ const Post = async ({ type }: { type ?: 'status' | 'comment'}) => {
                             consectetur debitis vel quaerat.
                         </p>
                     </Link>
-                    {/* <Image path="/general/post.jpeg" w={600} h={600} alt="post" /> */}
-                    {fileDetails && fileDetails.fileType === 'image' ? (
+                    <Image path="/general/post.jpeg" w={600} h={600} alt="post" />
+                    {/* {fileDetails && fileDetails.fileType === 'image' ? (
                         <Image 
                             className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} 
                             alt='' 
@@ -100,7 +101,7 @@ const Post = async ({ type }: { type ?: 'status' | 'comment'}) => {
                                 path={fileDetails.filePath}
                                 className={fileDetails?.customMetadata?.sensitive ? 'blur-lg' : ''} 
                             />
-                        )}
+                        )} */}
                     {type === 'status' && <span className='text-textGray'>8:41 PM · Dec 5, 1886</span>}
                     <PostInteractions />
                 </div>
