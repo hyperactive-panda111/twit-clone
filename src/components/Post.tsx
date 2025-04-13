@@ -1,8 +1,6 @@
-import { imagekit } from "@/utils";
 import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
-import Video from "./Video";
 import Link from "next/link";
 import { Post as PostType } from "../../prisma/db/generated/prisma";
 import { format } from "timeago.js";
@@ -19,8 +17,17 @@ type PostWithDetails = PostType & {
             img: string | null;
             username: string;
         };
-    }
+        _count: {likes: number; rePosts: number; comments: number};
+        likes: {id: number}[];
+        rePosts: { id: number}[]; 
+        saves: {id: number}[];   
+    };
+    _count: {likes: number; rePosts: number; comments: number};
+    likes: {id: number}[];
+    rePosts: { id: number}[];  
+    saves: {id: number}[];     
 };
+
 
 const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDetails}) => {
     
@@ -58,7 +65,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                 <div className="flex-1 flex flex-col gap-2 max-w-full overflow-hidden">
                     {/* USER INFO ROW */}
                     <div className='w-full flex justify-between'>
-                        <Link href={`/test`} className="flex gap-4">
+                        <Link href={`/${originalPost.user.username}`} className="flex gap-4">
                             {/* AVATAR - shown only when status */}
                             {type === 'status' && (
                                 <div className="relative w-10 h-10 rounded-full overflow-hidden">
@@ -107,7 +114,12 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                     {type === 'status' && <span className='text-textGray'>8:41 PM · Dec 5, 1886</span>}
                     
                     {/* INTERACTIONS */}
-                    <PostInteractions />
+                    <PostInteractions 
+                        count={originalPost._count}
+                        isLiked={!!originalPost.likes.length}
+                        isReposted={!!originalPost.rePosts.length}
+                        isSaved={!!originalPost.saves.length}                         
+                    />
                 </div>
             </div>
         </div>
