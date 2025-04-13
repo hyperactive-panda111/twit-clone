@@ -15,9 +15,9 @@ datasource db {
 }
 
 model User {
-  id          String  @id
-  email       String  @unique
-  username    String  @unique
+  id          String   @id
+  email       String   @unique
+  username    String   @unique
   displayName String?
   name        String?
   bio         String?
@@ -26,6 +26,8 @@ model User {
   website     String?
   img         String?
   cover       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   //RELATIONS
   posts Post[]
