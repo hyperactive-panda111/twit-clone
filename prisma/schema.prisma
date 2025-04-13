@@ -31,7 +31,7 @@ model User {
   //RELATIONS
   posts   Post[]
 
-  like Like[]
+  likes Like[]
   saves savedPosts[]
 
   followers Follow[] @relation("UserFollowers")
@@ -60,7 +60,7 @@ model Post {
   parentPost  Post? @relation("PostComments", fields: [parentPostId], references: [id])
   comments Post[] @relation("PostComments")
 
-  like Like[]
+  likes Like[]
 
   saves savedPosts[] 
 }
