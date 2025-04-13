@@ -4,14 +4,14 @@ import Link from 'next/link'
 import React from 'react'
 import prisma from '../../../../lib/prisma'
 import { notFound } from 'next/navigation'
+import { auth } from '@clerk/nextjs/server'
 
-const UserPage = async ({ params }: { params: { username: string }}) => {
-
-  const { username } = await params;
+const UserPage = async ({ params }: {params: { username: string }}) => {   
 
   const user = await prisma.user.findUnique({
-    where: {username },
+    where: {username: params.username },
   })
+
 
   if (!user) return notFound();
 
