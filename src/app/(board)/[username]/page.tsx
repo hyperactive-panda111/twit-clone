@@ -5,12 +5,16 @@ import React from 'react'
 import prisma from '../../../../lib/prisma'
 import { notFound } from 'next/navigation'
 import { auth } from '@clerk/nextjs/server'
+import FollowButton from '@/components/FollowButton'
 
 const UserPage = async ({ params }: {params: { username: string }}) => {   
-
+  const { userId } = await auth();
   const user = await prisma.user.findUnique({
     where: {username: params.username },
-  })
+    include: {
+      _count: {select: {followers: true, followings: true }},
+      followings:userId ? {where: {followerId: userId}} : undefined},
+  });
 
 
   if (!user) return notFound();
@@ -22,7 +26,7 @@ const UserPage = async ({ params }: {params: { username: string }}) => {
         <Link href='/'>
           <Image path='/icons/back.svg' alt='back' w={24} h={24} />
         </Link>
-        <h1 className='font-bold text-lg'>KarmaDev</h1>
+        <h1 className='font-bold text-lg'>{user.displayName}</h1>
       </div>
       {/* INFO */}
       <div>
@@ -30,11 +34,25 @@ const UserPage = async ({ params }: {params: { username: string }}) => {
         <div className='relative w-full'>
           {/* COVER */}
           <div className='relative w-full aspect-[3/1]'>
-            <Image path={'/general/arcane2.jpg'} alt={'cover'} h={200} w={600} tr={true}/>      
+            <Image 
+              //@ts-ignore
+              path={!!user.cover  && '/general/nocover.jpeg'} 
+              alt={'cover'} 
+              h={200} 
+              w={600} 
+              tr={true}
+            />      
           </div>
           {/* AVATAR */}
           <div className='absolute left-4 -translate-y-1/2 w-1/6 aspect-square overflow-hidden border-4 border-black bg-gray-300 rounded-full'>
-            <Image path={'/general/arcane2.jpg'} alt={'avatar'} w={100} h={100} tr={true} />      
+            <Image 
+              //@ts-ignore
+              path={!!user.img &&'/general/noprofile.jpg'} 
+              alt={'avatar'} 
+              w={100} 
+              h={100} 
+              tr={true} 
+            />      
           </div>
         </div>
         <div className='flex justify-end items-center gap-2 p-2'>
@@ -47,27 +65,27 @@ const UserPage = async ({ params }: {params: { username: string }}) => {
           <div className='w-9 h-9 flex items-center justify-center rounded-full border-[1px] border-gray-500 cursor-pointer'>
             <Image path='/icons/more.svg' alt='more' w={20} h={20}/>
           </div>
-          <button className='py-2 px-4 bg-white text-black font-bold rounded-full'>Follow</button>
+          {userId && <FollowButton userId={user.id} isFollowed={!!user.followings.length} />}
         </div>
         {/* USER DETAILS */}
         <div className='flex flex-col gap-2 p-4'>
           {/* USERNAME & HANDLE */}
           <div className=''>
-            <h1 className='text-2xl font-bold'>Karma Dev</h1>
-            <span className='text-textGray text-sm'>@LamaDev</span>
+            <h1 className='text-2xl font-bold'>{user.displayName}</h1>
+            <span className='text-textGray text-sm'>@{user.username}</span>
           </div>
-          <p>Karma Dev Youtube Channel</p>
+          {user.bio && <p>{user.bio} Youtube Channel</p>}
           {/* JOB & LOCATION & DATE */}
           <div className='flex gap-4 text-textGray text-[15px]'>
-            <div className='flex items-center gap-2'>
+            {user.location && <div className='flex items-center gap-2'>
               <Image 
                 path='/icons/userLocation.svg'
                 alt='location'
                 w={20}
                 h={20}
               />
-              <span>USA</span>
-            </div>
+              <span>{user.location}</span>
+            </div>}
             <div className='flex items-center gap-2'>
               <Image 
                 path='/icons/date.svg'
@@ -75,18 +93,18 @@ const UserPage = async ({ params }: {params: { username: string }}) => {
                 w={20}
                 h={20}
               />
-              <span>Joined December 1959</span>
+              <span>Joined {new Date(user.createdAt.toString()).toLocaleDateString('en-US', { month: 'long', year: 'numeric'})}</span>
             </div>
           </div>
         {/* FOLLOWINGS & FOLLOWERS */}
         <div className='flex gap-4'>
           <div className='flex gap-2 items-center'>
-            <span className='font-bold'>100</span>
+            <span className='font-bold'>{user._count.followers}</span>
             <span className='text-[15px] text-textGray'>Followers</span>
           </div>
           <div className='flex gap-2 items-center'>
-            <span className='font-bold'>100</span>
-            <span className='text-[15px] text-textGray'>Followed</span>
+            <span className='font-bold'>{user._count.followings}</span>
+            <span className='text-[15px] text-textGray'>Followings</span>
           </div>
         </div>
         </div>
