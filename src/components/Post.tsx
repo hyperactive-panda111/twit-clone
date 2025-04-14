@@ -90,7 +90,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                     
                     {/* POST TEXT */}
                     <div className="w-full break-words">
-                        <Link href={`/test/status/12`} className="inline-block w-full">
+                        <Link href={`/${originalPost.user.username}/status/${originalPost.id}`} className="inline-block w-full">
                             <p className={`${type === 'status' ? 'text-lg' : ''} whitespace-normal break-words`}>
                                 {originalPost.desc}
                             </p>
