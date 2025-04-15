@@ -173,7 +173,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/workspace/twit-clone/prisma/db/generated/prisma",
+      "value": "/home/user/twit-clone/prisma/db/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -187,7 +187,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/workspace/twit-clone/prisma/schema.prisma",
+    "sourceFilePath": "/home/user/twit-clone/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -201,11 +201,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://twitter-db_owner:npg_ijnrmMp16fbh@ep-tight-feather-ab1h2uj8-pooler.eu-west-2.aws.neon.tech/twitter-db?sslmode=require"
+        "value": null
       }
     }
   },

@@ -43,3 +43,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#vscode settings
+.vscode
+# clerk configuration (can include secrets)
+/.clerk/
