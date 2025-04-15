@@ -139,6 +139,7 @@ exports.Prisma.PostScalarFieldEnum = {
   updatedAt: 'updatedAt',
   desc: 'desc',
   img: 'img',
+  imgHeight: 'imgHeight',
   vid: 'vid',
   isSensitive: 'isSensitive',
   userId: 'userId',
