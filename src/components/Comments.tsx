@@ -1,6 +1,11 @@
+'use client';
+
+import { useUser } from "@clerk/nextjs";
 import { Post as PostType } from "../../prisma/db/generated/prisma";
 import Image from "./Image"
 import Post from "./Post";
+import { useActionState } from "react";
+import { addComment } from "@/action";
 
 type CommentWithDetails = PostType & {
   user: { displayName: string | null; username: string; img: string | null};
@@ -11,15 +16,34 @@ type CommentWithDetails = PostType & {
 }
 
 const Comments = ({comments, postId, username}: {postId: number, username: string, comments: CommentWithDetails[]}) => {
+
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  const [state, formAction, isPending] = useActionState(addComment, 
+    {
+      success: false, 
+      error: false 
+    });
+    
   return (
     <div className=''>
-      <form className='flex items-center justify-between gap-4 p-4 '>
-        <div className='relative w-10 h-10 rounded-full overflow-hidden'>
-          <Image path="general/avatar.png" alt="Lama Dev" w={100} h={100} tr={true}/>
-        </div>
-        <input type="text" className="flex-1 bg-transparent outline-none p-2 text-xl" placeholder="Post your reply"/>
-        <button className="py-2 px-4 font-bold bg-white text-black rounded-full">Reply</button>
+      {user && (
+          <form 
+            action={formAction}
+            className='flex items-center justify-between gap-4 p-4 '
+          >
+            <div className='relative w-10 h-10 rounded-full overflow-hidden'>
+              <Image src={user?.imageUrl} alt="Lama Dev" w={100} h={100} tr={true}/>
+            </div>
+        <input type="text" name="desc" className="flex-1 bg-transparent outline-none p-2 text-xl" placeholder="Post your reply"/>
+        <input type="number" name="postId" hidden readOnly value={postId}/>
+        <input type="text" name="username" hidden readOnly value={username}/>
+        <button disabled={isPending} className="py-2 px-4 font-bold bg-white text-black rounded-full disabled:cursor-not-allowed disabled:bg-slate-200">
+          {isPending ? 'Replying' : 'Reply'}
+        </button>
       </form>
+    )}
+      {state.error && (<span className="text-red-300 p-4">Something went wrong</span>)}
       {comments.map((comment) => (
         <div key={comment.id}>
           <Post post={comment} type='comment'/>
