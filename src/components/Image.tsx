@@ -3,7 +3,8 @@
 import { IKImage } from 'imagekitio-next';
 
 type ImageType = {
-	path: string;
+	path?: string;
+    src?: string;
 	w?: number;
 	h?: number;
 	alt: string;
@@ -13,10 +14,15 @@ type ImageType = {
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 
-const Image = ({ path, w, h, alt, className, tr }: ImageType) => {
+if (!urlEndpoint) {
+    throw new Error('Error: Please add url endpoint to .env or .env.local file')
+}
+
+const Image = ({ path, w, h, alt, className, tr, src }: ImageType) => {
     return (
     <IKImage 
         urlEndpoint={urlEndpoint}
+        src={src}
         path={path}
         width={w}
         height={h}
