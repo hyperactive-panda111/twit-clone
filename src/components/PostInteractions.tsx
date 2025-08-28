@@ -1,16 +1,22 @@
 'use client';
 
 import { likePost, rePost, savePost } from "@/action";
+import { socket } from "@/socket";
+import { useUser } from "@clerk/nextjs";
 import { useOptimistic, useState } from "react";
 
-const PostInteractions = ({ count, isLiked, isReposted, isSaved, postId }:
+const PostInteractions = ({ username, count, isLiked, isReposted, isSaved, postId }:
     {
         count: { likes: number; rePosts: number; comments: number; },
         isLiked: boolean,
         isReposted: boolean,
         isSaved: boolean,
         postId: number,
+        username: string,
     }) => {
+
+    const { user } = useUser();
+    
 
     const [state, setState] = useState({
         likes: count.likes,
@@ -21,6 +27,20 @@ const PostInteractions = ({ count, isLiked, isReposted, isSaved, postId }:
     });
 
     const likeAction = async () => {
+        if (!user) return;
+
+        if (!optimisticCount.isLiked){
+            socket.emit('sendNotification', {
+                receiverUsername: username,
+                data: {
+                    senderUsername: user.username,
+                    type: 'like',
+                    link: `${username}/status/${postId}`
+                },
+            });
+        }
+
+
         addOptimisticCount('like');
         await likePost(postId);
         setState((prev) => {
@@ -33,6 +53,19 @@ const PostInteractions = ({ count, isLiked, isReposted, isSaved, postId }:
     };
 
     const rePostAction = async () => {
+        if (!user) return;
+
+        if (!optimisticCount.isReposted){
+            socket.emit('sendNotification', {
+                receiverUsername: username,
+                data: {
+                    senderUsername: user.username,
+                    type: 'rePost',
+                    link: `${username}/status/${postId}`
+                }
+            })
+        }
+
         addOptimisticCount('rePost');
         await rePost(postId);
         setState((prev) => {
@@ -45,6 +78,8 @@ const PostInteractions = ({ count, isLiked, isReposted, isSaved, postId }:
     };
 
     const saveAction = async () => {
+        if (!user) return;
+
         addOptimisticCount('save');
         await savePost(postId);
         setState((prev) => {

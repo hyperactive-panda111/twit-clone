@@ -49,7 +49,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
             <div className="flex gap-4">
                 {/* AVATAR COLUMN */}
                 <div className={`${type === 'status' ? 'hidden' : ''}`}>
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden -z-10">
                         <Image
                             //@ts-ignore
                             path={!!originalPost.user.img && '/general/noprofile.jpg'}
@@ -115,6 +115,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                     
                     {/* INTERACTIONS */}
                     <PostInteractions 
+                        username={originalPost.user.username}
                         postId={originalPost.id}
                         count={originalPost._count}
                         isLiked={!!originalPost.likes.length}

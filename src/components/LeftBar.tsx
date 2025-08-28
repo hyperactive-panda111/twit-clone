@@ -2,6 +2,7 @@ import { menuList } from "@/constants/constants"
 import Link from "next/link"
 import Image from "./Image"
 import Socket from "./Socket"
+import Notification from "./Notification"
 
 
 const LeftBar = () => {
@@ -20,16 +21,23 @@ const LeftBar = () => {
         </Link>
         {/* MENU LIST */}
         <div className="flex flex-col">
-          {menuList.map((item) => (
-           <Link href={`icons/${item.link}`} className="flex items-center gap-4 p-2 rounded-full hover:bg-[#181818]" key={item.id}>
-            <Image 
-              path={`icons/${item.icon}`} 
-              h={24} 
-              w={24} 
-              alt={item.name} 
-            />
-            <span className="hidden xxl:inline">{item.name}</span>
-           </Link>
+          {menuList.map((item, i) => (
+            <div key={item.id || i}>
+              {i == 2 && (
+                <div>
+                  <Notification />
+                </div>
+              )}
+              <Link href={`icons/${item.link}`} className="flex items-center gap-4 p-2 rounded-full hover:bg-[#181818]" key={item.id}>
+                <Image 
+                  path={`icons/${item.icon}`} 
+                  h={24} 
+                  w={24} 
+                  alt={item.name} 
+                />
+                <span className="hidden xxl:inline">{item.name}</span>
+              </Link>
+            </div>
           ))}
         </div>
         {/* POST BUTTON */}
@@ -40,6 +48,7 @@ const LeftBar = () => {
           Post
         </Link>
       </div>
+      <Socket/>
       {/* USER */}
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
@@ -58,7 +67,6 @@ const LeftBar = () => {
         </div>
         <div className="hidden xxl:block cursor-pointer font-bold">...</div>
       </div>
-      <Socket/>
     </div>
   )
 }
