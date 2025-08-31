@@ -17,7 +17,6 @@ const PostInteractions = ({ username, count, isLiked, isReposted, isSaved, postI
 
     const { user } = useUser();
     
-
     const [state, setState] = useState({
         likes: count.likes,
         isLiked: isLiked,
@@ -28,6 +27,15 @@ const PostInteractions = ({ username, count, isLiked, isReposted, isSaved, postI
 
     const likeAction = async () => {
         if (!user) return;
+        
+        socket.emit("sendNotification", {
+            receiveUsername: username,
+            data: {
+                senderUsername: user.username,
+                type: 'like',
+                link: `${username}/status/${postId}`,
+            }
+        });
 
         if (!optimisticCount.isLiked){
             socket.emit('sendNotification', {
@@ -39,7 +47,6 @@ const PostInteractions = ({ username, count, isLiked, isReposted, isSaved, postI
                 },
             });
         }
-
 
         addOptimisticCount('like');
         await likePost(postId);
