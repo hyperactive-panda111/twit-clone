@@ -20,9 +20,10 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '50mb',
     },
-    allowedDevOrigins: ['3001-idx-twit-clone-1744579984383.cluster-4ezwrnmkojawstf2k7vqy36oe6.cloudworkstations.dev',
-      '3000-idx-twit-clone-1744579984383.cluster-4ezwrnmkojawstf2k7vqy36oe6.cloudworkstations.dev.'
-    ],
+    allowedDevOrigins: [
+      '3000-firebase-twit-clonegit-1756382247555.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev',
+      'firebase-twit-clonegit-1756382247555.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev'
+    ],  
   }
 };
 
