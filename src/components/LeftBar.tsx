@@ -20,7 +20,7 @@ const LeftBar = () => {
              />
         </Link>
         {/* MENU LIST */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           {menuList.map((item, i) => (
             <div key={item.id || i}>
               {i == 2 && (

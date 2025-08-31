@@ -35,7 +35,6 @@ const Notification = () => {
         setNotifications(filteredList);
         setOpen(false);
         router.push(notification.link);
-        
     };
 
     return (
