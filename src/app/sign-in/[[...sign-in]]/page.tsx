@@ -61,7 +61,7 @@ const SignInPage = () => {
                             </p>
 
                             <Clerk.Field name="code" className='flex flex-col gap-2'>
-                                <Clerk.Input className='py-2 px-6 rounded-full text-black w-72 placeholder:text-sm' />
+                                <Clerk.Input className='py-2 px-6 rounded-full text-black w-72 placeholder:text-sm' placeholder='Verification Code'/>
                                 <Clerk.FieldError className='text-red-300 text-sm' />
                             </Clerk.Field>
 
