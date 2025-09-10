@@ -13,7 +13,6 @@ const StatusPage = async ({ params}: { params: Promise<{ username: string, postI
     const postId = (await params).postId;
     if (!postId) return;
     
-    if (!userId)
     if (!userId) return;
 
     const post = await prisma.post.findFirst({
@@ -25,6 +24,7 @@ const StatusPage = async ({ params}: { params: Promise<{ username: string, postI
             rePosts: { where: { userId: userId}, select: { id: true }},
             saves: { where: { userId: userId}, select: { id: true }},
             comments: {
+                orderBy: { createdAt: 'desc' },
                 include: {
                     user: {select: { displayName: true, username: true, img:true }},
                     _count: {select: { likes: true, rePosts: true, comments: true }},

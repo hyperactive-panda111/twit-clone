@@ -160,7 +160,7 @@ export const addComment = async (prevState: { success: boolean, error: boolean},
 };
 
 export const addPost = async (
-    state: { success: boolean; error: boolean},
+    prevState: { success: boolean; error: boolean},
     formData: FormData
 ) => {
     const { userId } = await auth();
@@ -192,12 +192,13 @@ export const addPost = async (
                 ...(file.type.includes("image") && {
                     transformation: {
                     pre: transformation,
-        },
+                },
             }),
         }, function(error, result) {
             if(error) reject(error);
             else resolve(result as UploadResponse);
-        });
+            }
+        );
         })
     };
 
@@ -246,4 +247,5 @@ export const addPost = async (
         console.log(error);
         return { success: false, error: true };
     }
+    return { success: false, error: true };
 };

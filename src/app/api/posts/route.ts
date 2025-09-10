@@ -14,6 +14,15 @@ export async function GET(request: NextRequest) {
     if (!userId) return;
     console.log('userId: ', userId);
 
+    const postIncludeQuery = {
+        user: { select: { displayName: true, username: true, img: true }},
+        _count: {select: {likes: true, rePosts: true, comments: true }},
+        likes: { where: { userId: userId }, select: {id: true }},
+        rePosts: { where: { userId: userId}, select: { id: true }},
+        saves: { where: { userId: userId}, select: { id: true }},
+      };
+    
+
     // const followings = await prisma.follow.findMany({ where: {followerId: userId}, select: {followingId: true}});
     // const ids = followings.map(f => f.followingId);
     // console.log('Response from DB: ', ids);
@@ -25,31 +34,23 @@ export async function GET(request: NextRequest) {
         }
     };
 
-    const posts = await prisma.post.findMany({ 
+    const posts = await prisma.post.findMany({
         where: whereCondition,
         include: {
-            user: {
-                select: { displayName: true, username: true, img:true }},
-                rePost: {
-                    include: {
-                      user: { select: { displayName: true, username: true, img: true }},
-                      _count: {select: { likes: true, rePosts: true, comments: true }},
-                      likes: { where: { userId: userId }, select: {id: true }},
-                      rePosts: { where: { userId: userId}, select: { id: true }},
-                      saves: { where: { userId: userId}, select: { id: true }},
-                    },
-                  },
-                  _count: {select: { likes: true, rePosts: true, comments: true }},
-                  likes: { where: { userId: userId }, select: {id: true }},
-                  rePosts: { where: { userId: userId}, select: { id: true }},
-                  saves: { where: { userId: userId}, select: { id: true }},
+          rePost: {
+            include: postIncludeQuery,
+          },
+          ...postIncludeQuery,
         },
-        take: LIMIT, 
-        skip: (Number(page) - 1) * LIMIT});
+        take: LIMIT,
+        skip: (Number(page) - 1) * LIMIT,
+        orderBy: { createdAt: "desc" }
+      });
+
     const totalPosts = await prisma.post.count({ where: whereCondition });
     console.log("Total: ", totalPosts);
     const hasMore = Number(page) * LIMIT < totalPosts;
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    //await new Promise((resolve) => setTimeout(resolve, 3000));
     return Response.json({ posts, hasMore });
 }

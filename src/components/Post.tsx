@@ -5,27 +5,22 @@ import Link from "next/link";
 import { Post as PostType } from "../../prisma/db/generated/prisma";
 import { format } from "timeago.js";
 
-type PostWithDetails = PostType & {
-    user: {
-        displayName: string | null;
-        img: string | null;
-        username: string;
-    };
-    rePost?: PostType & {
-        user: {
-            displayName: string | null;
-            img: string | null;
-            username: string;
-        };
-        _count: {likes: number; rePosts: number; comments: number};
-        likes: {id: number}[];
-        rePosts: { id: number}[]; 
-        saves: {id: number}[];   
-    };
+type UserSummary = {
+    displayName: string | null;
+    username: string;
+    img: string | null;
+};
+
+type Engagement = {
     _count: {likes: number; rePosts: number; comments: number};
     likes: {id: number}[];
-    rePosts: { id: number}[];  
-    saves: {id: number}[];     
+    rePosts: { id: number}[]; 
+    saves: {id: number}[]; 
+}
+
+type PostWithDetails = PostType & Engagement  & {
+    user: UserSummary;
+    rePost?: (PostType & Engagement & { user: UserSummary }) | null;
 };
 
 
