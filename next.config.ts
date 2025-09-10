@@ -21,10 +21,31 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '50mb',
     },
     allowedDevOrigins: [
-      '3000-firebase-twit-clonegit-1756382247555.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev',
-      'firebase-twit-clonegit-1756382247555.cluster-fbfjltn375c6wqxlhoehbz44sk.cloudworkstations.dev'
-    ],  
-  }
+      'http://localhost:3000',
+      'https://*.cloudworkstations.dev',
+      'https://*.ngrok-free.app',
+      'http://*.ngrok-free.app',
+      // Firebase/Google Cloud domains
+      'https://*.firebaseapp.com',
+      'https://*.web.app',
+      'https://*.cloudfunctions.net',
+      'https://*.googleapis.com',
+    ],
+  },
+  async headers() {
+    return [
+      {
+        // Apply these headers to all API routes
+        source: '/api/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' }, // In production, replace * with your specific domain
+          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT' },
+          { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
