@@ -3,6 +3,7 @@ import Link from "next/link"
 import Image from "./Image"
 import Socket from "./Socket"
 import Notification from "./Notification"
+import Logout from "./Logout"
 
 
 const LeftBar = () => {
@@ -65,7 +66,9 @@ const LeftBar = () => {
             <span className="text-sm text-textGray">@KarmaDev</span>
           </div>
         </div>
-        <div className="hidden xxl:block cursor-pointer font-bold">...</div>
+        {/* <div className="hidden xxl:block cursor-pointer font-bold">...</div> */}
+        {/* LOGOUT */}
+        <Logout/>
       </div>
     </div>
   )
