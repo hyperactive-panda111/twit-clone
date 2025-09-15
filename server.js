@@ -4,8 +4,9 @@ import { Server } from "socket.io";
 import { v4 as uuidv4 } from 'uuid';
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
-const port = 3000;
+const hostname = dev ? "localhost" : "0.0.0.0"; // Use 0.0.0.0 in production
+const port = parseInt(process.env.PORT) || 3000; // Use PORT env variable
+
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
@@ -17,13 +18,13 @@ const addUser = (username, socketId) => {
 
   if (!isExist) {
     onlineUsers.push({ username, socketId });
-    console.log(username + "added!");
+    console.log(username + " added!");
   }
 };
 
 const removeUser = (socketId) => {
   onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
-  console.log(socketId + "removed!");
+  console.log(socketId + " removed!");
 };
 
 const getUser = (username) => {
@@ -43,16 +44,17 @@ app.prepare().then(() => {
     socket.on("sendNotification", ({ receiveUsername, data }) => {
       const receiver = getUser(receiveUsername);
       
-      io.to(receiver.socketId).emit("getNotification", {
-        id: uuidv4(),
-        ...data,
-      });
-    })
+      if (receiver) { // Add null check
+        io.to(receiver.socketId).emit("getNotification", {
+          id: uuidv4(),
+          ...data,
+        });
+      }
+    });
 
     socket.on("disconnect", () => {
       removeUser(socket.id);
     });
-   
   });
 
   httpServer
@@ -60,7 +62,7 @@ app.prepare().then(() => {
       console.error(err);
       process.exit(1);
     })
-    .listen(port, () => {
+    .listen(port, hostname, () => {
       console.log(`> Ready on http://${hostname}:${port}`);
     });
 });
