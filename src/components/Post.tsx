@@ -46,7 +46,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                 <div className={`${type === 'status' ? 'hidden' : ''}`}>
                     <div className="relative w-10 h-10 rounded-full overflow-hidden -z-10">
                         <Image
-                            //@ts-expect-error
+                            //@ts-expect-error -- placeholder image
                             path={!!originalPost.user.img && '/general/noprofile.jpg'}
                             alt="profile"
                             tr={true}
@@ -96,7 +96,7 @@ const Post = ({ type, post }: { type ?: 'status' | 'comment', post: PostWithDeta
                     {originalPost.img && (
                         <div className="mt-2 w-full rounded-xl overflow-hidden">
                             <Image 
-                                //@ts-expect-error
+                                //@ts-expect-error -- placeholder error
                                 path={!!originalPost.img && '/general/arcane2.jpg'} 
                                 w={600} 
                                 h={600} 
