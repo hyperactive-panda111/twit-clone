@@ -203,12 +203,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://twitter-db_owner:npg_ijnrmMp16fbh@ep-tight-feather-ab1h2uj8-pooler.eu-west-2.aws.neon.tech/twitter-db?sslmode=require&channel_binding=require"
       }
     }
   },

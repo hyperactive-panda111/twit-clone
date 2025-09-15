@@ -39,7 +39,7 @@ const UserPage = async ({ params }: {params: Promise<{ username: string }>}) => 
           {/* COVER */}
           <div className='relative w-full aspect-[3/1]'>
             <Image 
-              //@ts-expect-error
+              //@ts-expect-error -- placeholder image
               path={!!user.cover  && '/general/nocover.jpeg'} 
               alt={'cover'} 
               h={200} 
@@ -50,7 +50,7 @@ const UserPage = async ({ params }: {params: Promise<{ username: string }>}) => 
           {/* AVATAR */}
           <div className='absolute left-4 -translate-y-1/2 w-1/6 aspect-square overflow-hidden border-4 border-black bg-gray-300 rounded-full'>
             <Image 
-              //@ts-expect-error
+              //@ts-expect-error -- placeholder image
               path={!!user.img &&'/general/noprofile.jpg'} 
               alt={'avatar'} 
               w={100} 

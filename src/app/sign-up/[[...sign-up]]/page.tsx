@@ -68,7 +68,7 @@ const SignUpPage = () => {
             <SignUp.Strategy name='email_code'>
               <div className='flex flex-col gap-4'>
                 <h1 className='text-xl font-bold'>Verify your email</h1>
-                <p className='text-sm mb-2'>We've sent a verification code to your email</p>
+                <p className='text-sm mb-2'>We&apos;ve sent a verification code to your email</p>
                 <Clerk.Field name='code' className='flex flex-col gap-2'>
                   <Clerk.Input
                     placeholder='Verification code'
@@ -88,7 +88,7 @@ const SignUpPage = () => {
                   resend
                   className='text-iconBlue text-sm underline'
                 >
-                  Didn't receive a code? Resend
+                  Didn&apos;t receive a code? Resend
                 </SignUp.Action>
               </div>
             </SignUp.Strategy>
