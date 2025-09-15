@@ -5,7 +5,9 @@ import { socket } from "../socket";
 import { useUser } from "@clerk/nextjs";
 
 export default function Socket() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isConnected, setIsConnected] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [transport, setTransport] = useState("N/A");
 
   const { user } = useUser();
@@ -19,7 +21,7 @@ export default function Socket() {
       setIsConnected(true);
       setTransport(socket.io.engine.transport.name);
 
-      socket.io.engine.on("upgrade", (transport: any) => {
+      socket.io.engine.on("upgrade", (transport) => {
         setTransport(transport.name);
       });
 
@@ -43,9 +45,6 @@ export default function Socket() {
   }, [user]);
 
   return (
-    <div>
-      {/* <p>Status: { isConnected ? "connected" : "disconnected" }</p>
-      <p>Transport: { transport }</p>  */}
-    </div>
+    <span></span>
   );
 }

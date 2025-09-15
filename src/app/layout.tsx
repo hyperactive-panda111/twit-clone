@@ -3,7 +3,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 import type { Metadata } from 'next'
-import { QueryClientProvider } from "@tanstack/react-query";
 import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {

@@ -18,7 +18,7 @@ type CommentWithDetails = PostType & {
 
 const Comments = ({comments, postId, username}: {postId: number, username: string, comments: CommentWithDetails[]}) => {
 
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { user } = useUser();
 
   const [state, formAction, isPending] = useActionState(addComment, 
     {
